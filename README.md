@@ -1,6 +1,5 @@
-# Java Hand Light System with OpenCV and Arduino
 
-## * Project Description
+# Java Hand Light System with OpenCV and Arduino
 
 This project implements a gesture control system that detects the user's hand through a camera and allows interaction with virtual on-screen buttons. When these buttons are touched, commands are sent to an Arduino via serial communication.
 
@@ -29,8 +28,8 @@ This project implements a gesture control system that detects the user's hand th
 1. Connect your Arduino via USB
 2. Upload the following basic sketch located in:
 
-``bash
-Java_HandLight_Control/ino src/Arduino_Board_UwU_20250330000359.ino
+```bash
+Java_HandLight_Control/ino/src/Arduino_Board_UwU_20250330000359.ino
 ```
 
 ## * Installation and Execution
@@ -45,7 +44,7 @@ Java_HandLight_Control/ino src/Arduino_Board_UwU_20250330000359.ino
    - Add the jSerialComm library to your classpath
 
 3. Modify configuration:
-   - Edit the COM port in `Main.java` according to your setup
+   - Edit the COM port in `Main.java` according to your setup:
    ```java
    ArduinoController arduinoController = new ArduinoController("COM3");
    ```
