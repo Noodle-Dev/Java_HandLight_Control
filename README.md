@@ -3,14 +3,14 @@
 
 This project implements a gesture control system that detects the user's hand through a camera and allows interaction with virtual on-screen buttons. When these buttons are touched, commands are sent to an Arduino via serial communication.
 
-## * Technologies Used
+## Technologies Used
 
 - **OpenCV**: For image processing and hand detection
 - **jSerialComm**: For serial communication with Arduino
 - **Java**: Main programming language
 - **Arduino**: Microcontroller that receives commands
 
-## * System Requirements
+## System Requirements
 
 ### Hardware
 - Webcam
@@ -23,7 +23,7 @@ This project implements a gesture control system that detects the user's hand th
 - jSerialComm library
 - Java IDE (IntelliJ, Eclipse, etc.)
 
-## * Arduino Setup
+## Arduino Setup
 
 1. Connect your Arduino via USB
 2. Upload the following basic sketch located in:
@@ -32,7 +32,7 @@ This project implements a gesture control system that detects the user's hand th
 Java_HandLight_Control/ino/src/Arduino_Board_UwU_20250330000359.ino
 ```
 
-## * Installation and Execution
+## Installation and Execution
 
 1. Clone the repository:
    ```bash
@@ -52,14 +52,14 @@ Java_HandLight_Control/ino/src/Arduino_Board_UwU_20250330000359.ino
 4. Run the project:
    - Compile and execute the `Main` class
 
-## * User Interface
+## User Interface
 
 The application displays:
 - Real-time camera feed
 - Three virtual buttons at the bottom
 - Hand detection highlighted with contours
 
-## * Project Structure
+## Project Structure
 
 ```
 📁 project/
