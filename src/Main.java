@@ -4,23 +4,24 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 import java.util.ArrayList;
 import java.util.List;
+import com.fazecast.jSerialComm.*;
 
 public class Main {
-    // Configuración de botones y sus acciones
     private static final int BUTTON_COUNT = 3;
     private static final Scalar[] BUTTON_COLORS = {
-            new Scalar(0, 0, 255),   // Rojo
-            new Scalar(0, 255, 0),    // Verde
-            new Scalar(255, 0, 0)     // Azul
+            new Scalar(0, 0, 255),
+            new Scalar(0, 255, 0),
+            new Scalar(255, 0, 0)
     };
     private static final Scalar[] ALT_BUTTON_COLORS = {
-            new Scalar(0, 100, 255),  // Naranja
-            new Scalar(100, 255, 100),// Verde claro
-            new Scalar(255, 100, 255) // Rosa
+            new Scalar(0, 100, 255),
+            new Scalar(100, 255, 100),
+            new Scalar(255, 100, 255)
     };
     private static Rect[] buttonRects = new Rect[BUTTON_COUNT];
     private static boolean[] buttonStates = new boolean[BUTTON_COUNT];
     private static boolean[] buttonWasPressed = new boolean[BUTTON_COUNT];
+    private static SerialPort serialPort;
 
     public static void main(String[] args) {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -28,6 +29,13 @@ public class Main {
 
         if (!capture.isOpened()) {
             System.out.println("Error al abrir la cámara");
+            return;
+        }
+
+        serialPort = SerialPort.getCommPort("COM3"); // Cambia según tu puerto
+        serialPort.setBaudRate(9600);
+        if (!serialPort.openPort()) {
+            System.out.println("No se pudo abrir el puerto");
             return;
         }
 
@@ -48,10 +56,10 @@ public class Main {
         }
 
         capture.release();
+        serialPort.closePort();
         HighGui.destroyAllWindows();
     }
 
-    // Función principal de detección de mano
     private static Rect detectHand(Mat frame) {
         Mat hsvFrame = new Mat();
         Mat mask = new Mat();
@@ -82,7 +90,6 @@ public class Main {
         return null;
     }
 
-    // Inicialización de botones
     private static void initializeButtons(int width, int height) {
         int btnWidth = 150, btnHeight = 80, margin = 20;
         int startY = height - btnHeight - margin;
@@ -94,7 +101,6 @@ public class Main {
         }
     }
 
-    // Dibujado de botones
     private static void drawButtons(Mat frame) {
         for (int i = 0; i < BUTTON_COUNT; i++) {
             Scalar color = buttonStates[i] ? ALT_BUTTON_COLORS[i] : BUTTON_COLORS[i];
@@ -106,12 +112,10 @@ public class Main {
         }
     }
 
-    // Manejo de interacciones con botones
     private static void handleButtonInteractions(Rect handRect) {
         for (int i = 0; i < BUTTON_COUNT; i++) {
             boolean isTouching = handRect != null && rectanglesIntersect(handRect, buttonRects[i]);
 
-            // Solo ejecutar acción cuando el botón es presionado (no mientras se mantiene)
             if (isTouching && !buttonWasPressed[i]) {
                 executeButtonAction(i);
                 buttonWasPressed[i] = true;
@@ -123,37 +127,26 @@ public class Main {
         }
     }
 
-    // Acciones específicas para cada botón
     private static void executeButtonAction(int buttonIndex) {
         switch (buttonIndex) {
             case 0:
-                actionButton1();
+                sendToArduino("R");
                 break;
             case 1:
-                actionButton2();
+                sendToArduino("G");
                 break;
             case 2:
-                actionButton3();
+                sendToArduino("B");
                 break;
         }
     }
 
-    // Funciones de acción para cada botón (personalizables)
-    private static void actionButton1() {
-        System.out.println("Botón 1 activado: Cambiar a modo rojo");
+    private static void sendToArduino(String command) {
+        if (serialPort.isOpen()) {
+            serialPort.writeBytes(command.getBytes(), command.length());
+        }
     }
 
-    private static void actionButton2() {
-        System.out.println("Botón 2 activado: Cambiar a modo verde");
-        // Aquí puedes añadir la lógica específica para el botón 2
-    }
-
-    private static void actionButton3() {
-        System.out.println("Botón 3 activado: Cambiar a modo azul");
-        // Aquí puedes añadir la lógica específica para el botón 3
-    }
-
-    // Función auxiliar para detectar intersección de rectángulos
     private static boolean rectanglesIntersect(Rect rect1, Rect rect2) {
         return !(rect1.x + rect1.width < rect2.x ||
                 rect2.x + rect2.width < rect1.x ||
