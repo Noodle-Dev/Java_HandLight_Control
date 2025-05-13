@@ -10,12 +10,13 @@ public class HandGestureController {
         Mat hierarchy = new Mat();
 
         Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
-        Core.inRange(hsvFrame, new Scalar(0, 40, 60), new Scalar(25, 255, 255), mask);
+        Core.inRange(hsvFrame, new Scalar(0, 40, 60), new Scalar(25, 255, 255), mask); //Filter skin color
 
-        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(5, 5));
+        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(5, 5));  // Apply morphology to clean the mask.
         Imgproc.morphologyEx(mask, mask, Imgproc.MORPH_OPEN, kernel);
         Imgproc.morphologyEx(mask, mask, Imgproc.MORPH_CLOSE, kernel);
 
+        // Search contours
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
@@ -31,6 +32,6 @@ public class HandGestureController {
                 return handRect;
             }
         }
-        return null;
+        return null; // Detecting nothing nigga
     }
 }

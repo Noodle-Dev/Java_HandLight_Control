@@ -1,6 +1,10 @@
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
+/*
+ Initialize buttons and define their positions and
+ their own actions depending on the color of it */
+
 public class ButtonController {
     private final int BUTTON_COUNT = 3;
     private final Scalar[] BUTTON_COLORS = {
@@ -29,6 +33,7 @@ public class ButtonController {
         this.arduinoController = arduinoController;
     }
 
+    // Define buttons positions
     private void initializeButtons(int width, int height) {
         int btnWidth = 150, btnHeight = 80, margin = 20;
         int startY = height - btnHeight - margin;
@@ -40,6 +45,7 @@ public class ButtonController {
         }
     }
 
+    // Draw buttons
     public void drawButtons(Mat frame) {
         for (int i = 0; i < BUTTON_COUNT; i++) {
             Scalar color = buttonStates[i] ? ALT_BUTTON_COLORS[i] : BUTTON_COLORS[i];
@@ -51,11 +57,13 @@ public class ButtonController {
         }
     }
 
+    // Check if hand
     public void handleButtonInteractions(Rect handRect) {
         for (int i = 0; i < BUTTON_COUNT; i++) {
             boolean isTouching = handRect != null && rectanglesIntersect(handRect, buttonRects[i]);
 
             if (isTouching && !buttonWasPressed[i]) {
+                //Send sigmal
                 executeButtonAction(i);
                 buttonWasPressed[i] = true;
             } else if (!isTouching) {
@@ -66,6 +74,7 @@ public class ButtonController {
         }
     }
 
+    //Semd signal to arduino
     private void executeButtonAction(int buttonIndex) {
         if (arduinoController == null) return;
 
@@ -82,6 +91,7 @@ public class ButtonController {
         }
     }
 
+    //Detect if two rectangles intersect
     private boolean rectanglesIntersect(Rect rect1, Rect rect2) {
         return !(rect1.x + rect1.width < rect2.x ||
                 rect2.x + rect2.width < rect1.x ||
