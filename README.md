@@ -28,10 +28,10 @@ This project implements a gesture control system that detects the user's hand th
 1. Connect your Arduino via USB
 2. Make the following circuit
 3. Materials:
-   -Arduino UNO
-   -3 Leds (Red, Green and Blue)
-   -3 220 Ω Resistors
-   -Male to Male cables (Use diferent colors)
+   -Arduino UNO, 
+   3 Leds (Red, Green and Blue), 
+   3 220 Ω Resistors, 
+   Male to Male cables (Use diferent colors)
    ![Alt text](Demo_Ino_Img.png)
    Make sure to bridge to ground the resistors
    
