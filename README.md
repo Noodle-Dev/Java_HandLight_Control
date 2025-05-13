@@ -32,7 +32,7 @@ This project implements a gesture control system that detects the user's hand th
    -3 Leds (Red, Green and Blue)
    -3 220 Ω Resistors
    -Male to Male cables (Use diferent colors)
-   ![Alt text](Demo_Ino_img.png)
+   ![Alt text](Demo_Ino_Img.png)
    Make sure to bridge to ground the resistors
    
 8. Upload the following basic sketch located in:
