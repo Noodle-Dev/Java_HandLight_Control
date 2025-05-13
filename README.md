@@ -26,7 +26,16 @@ This project implements a gesture control system that detects the user's hand th
 ## Arduino Setup
 
 1. Connect your Arduino via USB
-2. Upload the following basic sketch located in:
+2. Make the following circuit
+3. Materials:
+   -Arduino UNO, 
+   3 Leds (Red, Green and Blue), 
+   3 220 Ω Resistors, 
+   Male to Male cables (Use diferent colors)
+   ![Alt text](Demo_Ino_Img.png)
+   Make sure to bridge to ground the resistors
+   
+8. Upload the following basic sketch located in:
 
 ```bash
 Java_HandLight_Control/ino/src/Arduino_Board_UwU_20250330000359.ino
