@@ -1,18 +1,19 @@
 import com.fazecast.jSerialComm.*;
 
 public class ArduinoController {
-    private SerialPort serialPort;
+    private SerialPort serialPort; //Serial port (Arduino Uses COM3) ᓚ₍ ^. .^₎
 
     public ArduinoController(String portName) {
+        //Mannage serial comunication w JSerialComm
         serialPort = SerialPort.getCommPort(portName);
         serialPort.setBaudRate(9600);
-        // print in terminal if there isnt any arduino connected
+        // No Arduino?
         if (!serialPort.openPort()) {
             System.out.println("No se pudo abrir el puerto serial");
         }
     }
 
-    // Arduino is connected
+    // Arduino is connected ฅᨐฅ
     public boolean isConnected() {
         return serialPort != null && serialPort.isOpen();
     }

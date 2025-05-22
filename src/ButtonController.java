@@ -17,10 +17,10 @@ public class ButtonController {
             new Scalar(100, 255, 100),
             new Scalar(255, 100, 255)
     };
-    private Rect[] buttonRects;
-    private boolean[] buttonStates;
-    private boolean[] buttonWasPressed;
-    private ArduinoController arduinoController;
+    private Rect[] buttonRects; //Buttons rect
+    private boolean[] buttonStates; //Detect buttons states
+    private boolean[] buttonWasPressed; // prevent button glitch
+    private ArduinoController arduinoController; // instance of arduino modulo to send signals
 
     public ButtonController(int width, int height) {
         buttonRects = new Rect[BUTTON_COUNT];
@@ -33,7 +33,7 @@ public class ButtonController {
         this.arduinoController = arduinoController;
     }
 
-    // Define buttons positions
+    // Define buttons positions based on window resolution
     private void initializeButtons(int width, int height) {
         int btnWidth = 150, btnHeight = 80, margin = 20;
         int startY = height - btnHeight - margin;
@@ -45,7 +45,7 @@ public class ButtonController {
         }
     }
 
-    // Draw buttons
+    // Draw buttons on window
     public void drawButtons(Mat frame) {
         for (int i = 0; i < BUTTON_COUNT; i++) {
             Scalar color = buttonStates[i] ? ALT_BUTTON_COLORS[i] : BUTTON_COLORS[i];
@@ -57,13 +57,13 @@ public class ButtonController {
         }
     }
 
-    // Check if hand
+    // For every button, checks if hand is in button
     public void handleButtonInteractions(Rect handRect) {
         for (int i = 0; i < BUTTON_COUNT; i++) {
             boolean isTouching = handRect != null && rectanglesIntersect(handRect, buttonRects[i]);
 
             if (isTouching && !buttonWasPressed[i]) {
-                //Send sigmal
+                //Func to execute the action
                 executeButtonAction(i);
                 buttonWasPressed[i] = true;
             } else if (!isTouching) {
@@ -74,19 +74,20 @@ public class ButtonController {
         }
     }
 
-    //Semd signal to arduino
+    //Send signal to arduino /ᐠ - ˕ -マ
     private void executeButtonAction(int buttonIndex) {
         if (arduinoController == null) return;
 
+        //Signals stored in the Arduino
         switch (buttonIndex) {
             case 0:
-                arduinoController.sendCommand("R");
+                arduinoController.sendCommand("R"); // Action available in /ino src/Arduino_Board_UWU2025033
                 break;
             case 1:
-                arduinoController.sendCommand("G");
+                arduinoController.sendCommand("G"); // Action available in /ino src/Arduino_Board_UWU2025033
                 break;
             case 2:
-                arduinoController.sendCommand("B");
+                arduinoController.sendCommand("B"); // Action available in /ino src/Arduino_Board_UWU2025033
                 break;
         }
     }
