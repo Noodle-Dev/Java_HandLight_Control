@@ -71,7 +71,7 @@ The application displays:
 ## Project Structure
 
 ```
-📁 project/
+📁 Java_HandLight_Control/
 ├── 📁 src/
 │   ├── Main.java                # Entry point
 │   ├── ArduinoController.java   # Arduino communication
